@@ -2,13 +2,12 @@ const winston = require("winston");
 const appRoot = require('app-root-path');
 require('winston-daily-rotate-file');
 
-console.log("appRoot : ", appRoot);
-
-var logDir = appRoot + '/logs';
+const logDir = appRoot + '/logs';
+const logLevel = process.env.LOG_LEVEL;
 
 var options = {
   file: {
-    level: "info",
+    level: logLevel || "info",
     // filename: `${appRoot}/logs/app.log`,
     // handleExceptions: true,
     // json: true,
@@ -22,7 +21,7 @@ var options = {
     prepend: true,
   },
   console: {
-    level: "debug",
+    level: logLevel || "debug",
     handleExceptions: true,
     json: false,
     colorize: true

@@ -5,7 +5,7 @@ module.exports = {
       url: 'mongodb://localhost/suprem_db'
     },
     port: 8080,
-    secret: 'development'
+    secret: 'development-secret'
   },
 
   production: {
@@ -13,6 +13,6 @@ module.exports = {
       url: 'mongodb://localhost/suprem_db'
     },
     port: 8080,
-    secret: 'development'
+    secret: 'production-secret'
   }
 };

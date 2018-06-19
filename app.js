@@ -15,11 +15,6 @@ var swaggerDocument = require("./api/swagger/swagger.json");
 
 var app = express();
 
-// const DBInit = require("./db-init");
-// const dBInit = new DBInit();
-// dBInit.init();
-
-
 //swagger
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

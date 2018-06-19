@@ -15,7 +15,6 @@ var mongoose = require("mongoose");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/database.config")[env];
 
-console.log("config : ", config.database.url);
 
 var port = normalizePort(process.env.PORT || "8080");
 app.set("port", port);
