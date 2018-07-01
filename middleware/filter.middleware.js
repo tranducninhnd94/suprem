@@ -1,15 +1,17 @@
-const constants = require("../api/common/constants");
 const jwt = require("jsonwebtoken");
-const StandardResponse = require("../api/dto/res.dto");
-const ErrorResponse = StandardResponse.ErrorResponse;
+const StandardResponse = require("../api/dto/response/standard.res");
+const standardResponse = new StandardResponse();
 
 class FilterMiddleware {
   filter(req, res, next) {
+    console.log("token21321 : ", req.headers["authorization"]);
     if (req.headers && req.headers["authorization"] && req.headers["authorization"].split(" ")[0] == "Token") {
       let token = req.headers.authorization.split(" ")[1];
-      jwt.verify(token, constants.SECRET, (error, decoded) => {
+      console.log("token : ", token);
+      jwt.verify(token, "constant.SECRET", (error, decoded) => {
         if (error) {
-          let errorResponse = new ErrorResponse(403, error.name, error.message);
+          // new ErrorResponse(403, error.name, error.message);
+          let errorResponse = standardResponse.clientError(403, error.message);
           return res.status(403).json(errorResponse);
         } else {
           req.user = decoded;

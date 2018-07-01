@@ -28,6 +28,7 @@ var server = http.createServer(app);
 /**
  * Connect database
  */
+mongoose.set("debug", true);
 mongoose.connect(config.database.url, (err) => {
   if (err) {
     console.log("Error connecting to db", err);

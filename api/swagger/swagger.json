@@ -27,23 +27,52 @@
         "application/json"
     ],
     "paths": {
-        "/user/login": {
+        "/api/v1/location": {
             "post": {
                 "tags": [
-                    "User"
+                    "Location"
                 ],
-                "description": "Login user in system",
+                "description": "Create Location",
                 "parameters": [
                     {
-                        "name": "user",
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "token of user",
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
                         "in": "body",
-                        "description": "login request",
+                        "description": "location body request",
                         "schema": {
                             "properties": {
-                                "email": {
+                                "name": {
                                     "type": "string"
                                 },
-                                "password": {
+                                "address": {
+                                    "properties": {
+                                        "ward": {
+                                            "type": "string"
+                                        },
+                                        "district": {
+                                            "type": "string"
+                                        },
+                                        "province": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "phone_number": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "fax": {
+                                    "type": "string"
+                                },
+                                "owner": {
                                     "type": "string"
                                 }
                             }
@@ -55,13 +84,137 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "create sucess",
+                        "description": "Sucess",
                         "schema": {
                             "$ref": "#/definitions/SuccessResponse"
                         }
                     },
-                    "400": {
-                        "description": "Invalidate Data",
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Location"
+                ],
+                "description": "Update location",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "token of user",
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "body",
+                        "description": "location body request",
+                        "schema": {
+                            "properties": {
+                                "_id": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "address": {
+                                    "properties": {
+                                        "ward": {
+                                            "type": "string"
+                                        },
+                                        "district": {
+                                            "type": "string"
+                                        },
+                                        "province": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "phone_number": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "fax": {
+                                    "type": "string"
+                                },
+                                "owner": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "Change password",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "token of user",
+                        "type": "string"
+                    },
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "new password",
+                        "schema": {
+                            "properties": {
+                                "newPassword": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess",
                         "schema": {
                             "$ref": "#/definitions/SuccessResponse"
                         }

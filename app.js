@@ -9,14 +9,16 @@ var fs = require("fs");
 
 console.log("environment : ", process.env.NODE_ENV);
 
-//sawagger
-var swaggerUi = require("swagger-ui-express");
-var swaggerDocument = require("./api/swagger/swagger.json");
-
 var app = express();
 
 //swagger
-app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+var swaggerUi = require("swagger-ui-express");
+// var swaggerDocument = require("./api/swagger/swagger.json");
+// app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// using yaml
+const YAML = require("yamljs");
+const swaggerDocumentV2 = YAML.load("./api/swagger/swagger.yaml");
+app.use("/swagger-ui", swaggerUi.serve, swaggerUi.setup(swaggerDocumentV2));
 
 //winston logger
 const winston = require("./config/winston.config");
@@ -32,11 +34,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-
+//fifter
+const FilterMiddleware = require("./middleware/filter.middleware");
+const filterMiddleware = new FilterMiddleware();
+app.use(filterMiddleware.filter);
 //test api
 app.use("/sayhello", (req, res, next) => {
   res.json({ msg: "hello world!" });
 })
+
+// routes
+const router = require("./routes/router");
+app.use("/api/v1", router);
 
 
 // catch 404 and forward to error handler
